@@ -31,3 +31,13 @@ http://localhost:8082/orders/1
 
 Tire1 > Tire2
 
+
+Spring boot 2.7.x Jeager tracer registration process
+/Users/rahulvr/.m2/repository/io/opentracing/contrib/opentracing-spring-web-starter/3.0.1/opentracing-spring-web-starter-3.0.1.jar!/io/opentracing/contrib/spring/web/starter/ServerTracingAutoConfiguration.class
+
+2023-04-07 10:46:12.025  INFO 12462 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 130 ms
+2023-04-07 10:46:12.048  INFO 12462 --- [  restartedMain] o.c.s.w.s.ServerTracingAutoConfiguration : Creating FilterRegistrationBean bean with TracingFilter mapped to [], skip pattern is "/api-docs.*|/swagger.*|.*\.png|.*\.css|.*\.js|.*\.html|/favicon.ico|/hystrix.stream"
+2023-04-07 10:46:12.080  INFO 12462 --- [  restartedMain] o.c.s.w.s.ServerTracingAutoConfiguration : Creating WebMvcConfigurer bean with class io.opentracing.contrib.spring.web.interceptor.TracingHandlerInterceptor
+2023-04-07 10:46:12.223  WARN 12462 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+
+When Simpley upgrading Tracing does not work
