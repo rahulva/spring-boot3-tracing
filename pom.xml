@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>spring-boot3-tracing</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -15,14 +15,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <java.version>17</java.version>
-        <spring-cloud.version>2021.0.6</spring-cloud.version>
-        <spring-boot.version>2.7.10</spring-boot.version>
+<!--        <spring-cloud.version>2021.0.6</spring-cloud.version>-->
+        <spring-boot.version>3.0.5</spring-boot.version>
     </properties>
 
     <modules>
 <!--        <module>root</module>-->
         <module>tire1</module>
         <module>tire2</module>
+        <module>jeager-boot3-tracing-adapter</module>
     </modules>
 
     <dependencyManagement>
@@ -30,7 +31,7 @@
             <dependency>
                 <groupId>io.opentracing.contrib</groupId>
                 <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
-                <version>3.1.2</version>
+                <version>3.3.1</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -39,13 +40,13 @@
                 <version>${spring-boot.version}</version>
                 <scope>import</scope>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
