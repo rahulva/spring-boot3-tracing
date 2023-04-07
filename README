@@ -1,0 +1,33 @@
+Jeager
+
+docker run -p 9090:16686 — name jaeger -d jaegertracing/all-in-one:1.17
+
+docker run -d --name jaeger \
+  -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
+  -p 5775:5775/udp \
+  -p 6831:6831/udp \
+  -p 6832:6832/udp \
+  -p 5778:5778 \
+  -p 16686:16686 \
+  -p 14268:14268 \
+  -p 14250:14250 \
+  -p 9411:9411 \
+  jaegertracing/all-in-one:1.22
+
+http://localhost:16686
+
+This is a POC to follow following steps
+Spring boot 2.7 tracing with Jeager
+Spring boot migration from 2.7 to 3.5
+Using OpenTe
+
+
+Tire2
+http://localhost:8083/products
+http://localhost:8083/products/3
+
+Tire1
+http://localhost:8082/orders/1
+
+Tire1 > Tire2
+
