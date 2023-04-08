@@ -4,7 +4,9 @@ import io.opentracing.Span;
 import io.opentracing.tag.StringTag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.example.tracing.filter.ServletFilterSpanDecorator;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
  * they will be added as {@link StringTag}.
  * The tag format will be a concatenation of {@link #prefix} and {@link HeaderEntry#tag}
  */
+@Slf4j
 public class ServletFilterHeaderSpanDecorator implements ServletFilterSpanDecorator {
 
     private final String prefix;
@@ -34,6 +37,7 @@ public class ServletFilterHeaderSpanDecorator implements ServletFilterSpanDecora
      * @param prefix the prefix to prepend on each @{@link StringTag}. Can be null is not prefix is desired
      */
     public ServletFilterHeaderSpanDecorator(List<HeaderEntry> allowedHeaders, String prefix) {
+        log.info("ServletFilterHeaderSpanDecorator constructor");
         this.allowedHeaders = new ArrayList<>(allowedHeaders);
         this.prefix = (prefix != null && !prefix.isEmpty()) ? prefix : null;
     }
@@ -51,16 +55,18 @@ public class ServletFilterHeaderSpanDecorator implements ServletFilterSpanDecora
     @Override
     public void onResponse(HttpServletRequest httpServletRequest,
         HttpServletResponse httpServletResponse, Span span) {
+        log.info("onResponse called");
     }
 
     @Override
-    public void onError(HttpServletRequest httpServletRequest,
-        HttpServletResponse httpServletResponse, Throwable exception, Span span) {
+    public void onError(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Throwable exception, Span span) {
+        log.info("onError called {}", span);
     }
 
     @Override
     public void onTimeout(HttpServletRequest httpServletRequest,
         HttpServletResponse httpServletResponse, long timeout, Span span) {
+        log.info("onTimeout called {}", span);
     }
 
     private StringTag buildTag(String tag) {

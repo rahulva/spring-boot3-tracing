@@ -1,43 +1,26 @@
 /**
  * Copyright 2016-2019 The OpenTracing Authors
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.example.tracing;
+package org.example.tracing.interceptor;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.List;
-
-//import io.opentracing.contrib.spring.web.interceptor.HandlerInterceptorSpanDecorator;
+import io.opentracing.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-//import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import io.opentracing.References;
-import io.opentracing.Scope;
-import io.opentracing.Span;
-import io.opentracing.SpanContext;
-import io.opentracing.Tracer;
-//import io.opentracing.contrib.web.servlet.filter.TracingFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.example.tracing.filter.TracingFilter;
-import org.example.tracing.interceptor.HandlerInterceptorSpanDecorator;
-import org.springframework.web.context.request.WebRequestInterceptor;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter;
+
+import java.util.*;
 
 /**
  * Tracing handler interceptor for spring web. It creates a new span for an incoming request
@@ -103,6 +86,7 @@ public class TracingHandlerInterceptor implements AsyncHandlerInterceptor { //im
          * 2. if there is no active span then it can be handling of an async request or spring boot default error handling
          */
         Span serverSpan = tracer.activeSpan();
+        log.info("preHandle called span: {}", serverSpan);
         if (serverSpan == null) {
             if (httpServletRequest.getAttribute(CONTINUATION_FROM_ASYNC_STARTED) != null) {
                 serverSpan = (Span) httpServletRequest.getAttribute(CONTINUATION_FROM_ASYNC_STARTED);
@@ -126,7 +110,7 @@ public class TracingHandlerInterceptor implements AsyncHandlerInterceptor { //im
     }
 
     @Override
-    public void afterConcurrentHandlingStarted (
+    public void afterConcurrentHandlingStarted(
             HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) {
 
         if (!isTraced(httpServletRequest)) {
@@ -134,6 +118,7 @@ public class TracingHandlerInterceptor implements AsyncHandlerInterceptor { //im
         }
 
         Span span = tracer.activeSpan();
+        log.info("afterConcurrentHandlingStarted span {}", span);
         for (HandlerInterceptorSpanDecorator decorator : decorators) {
             decorator.onAfterConcurrentHandlingStarted(httpServletRequest, httpServletResponse, handler, span);
         }
@@ -150,11 +135,12 @@ public class TracingHandlerInterceptor implements AsyncHandlerInterceptor { //im
         }
 
         Span span = tracer.activeSpan();
+        log.info("afterCompletion span {}", span);
         for (HandlerInterceptorSpanDecorator decorator : decorators) {
             decorator.onAfterCompletion(httpServletRequest, httpServletResponse, handler, ex, span);
         }
         Deque<Scope> scopeStack = getScopeStack(httpServletRequest);
-        if(scopeStack.size() > 0) {
+        if (scopeStack.size() > 0) {
             Scope scope = scopeStack.pop();
             scope.close();
         }
@@ -165,6 +151,7 @@ public class TracingHandlerInterceptor implements AsyncHandlerInterceptor { //im
     }
 
     private Deque<Scope> getScopeStack(HttpServletRequest request) {
+        log.info("getScopeStack");
         Deque<Scope> stack = (Deque<Scope>) request.getAttribute(SCOPE_STACK);
         if (stack == null) {
             stack = new ArrayDeque<>();

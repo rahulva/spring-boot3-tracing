@@ -19,15 +19,18 @@ import io.opentracing.contrib.spring.tracer.configuration.TracerAutoConfiguratio
 import io.opentracing.contrib.spring.web.starter.SkipPatternAutoConfiguration;
 import io.opentracing.contrib.spring.web.starter.WebTracingProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.example.tracing.filter.ServletFilterSpanDecorator;
 import org.example.tracing.interceptor.HandlerInterceptorSpanDecorator;
+import org.example.tracing.interceptor.TracingHandlerInterceptor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -105,7 +108,7 @@ public class ServerTracingAutoConfiguration {
 
         return new WebMvcConfigurer() {
             @Override
-            public void addInterceptors(InterceptorRegistry registry) {
+            public void addInterceptors(@NotNull InterceptorRegistry registry) {
                 List<HandlerInterceptorSpanDecorator> decorators = interceptorSpanDecorator.getIfAvailable();
                 if (CollectionUtils.isEmpty(decorators)) {
                     decorators = Arrays.asList(HandlerInterceptorSpanDecorator.STANDARD_LOGS,
@@ -118,24 +121,25 @@ public class ServerTracingAutoConfiguration {
     }
 
 
-    @Bean
-    @ConditionalOnMissingBean({Tracer.class})
-    public Tracer getTracer() {
-//        Object tracer;
-//        if (GlobalTracer.isRegistered()) {
-//            log.warn("GlobalTracer is already registered. For consistency it is best practice to provide a Tracer bean instead of manually registering it with the GlobalTracer");
-//            tracer = GlobalTracer.get();
-//        } else {
-//            tracer = TracerResolver.resolveTracer();
-//            if (tracer == null) {
-//                tracer = NoopTracerFactory.create();
-//            }
-//        }
-//
-//        log.warn("Tracer bean is not configured! Switching to " + tracer);
-//        return (Tracer)tracer;
-        return new TracerAutoConfiguration().getTracer();
-    }
+//    @Bean
+//    @ConditionalOnMissingBean({Tracer.class})
+//    public Tracer getTracer() {
+////        Object tracer;
+////        if (GlobalTracer.isRegistered()) {
+////            log.warn("GlobalTracer is already registered. For consistency it is best practice to provide a Tracer bean instead of manually registering it with the GlobalTracer");
+////            tracer = GlobalTracer.get();
+////        } else {
+////            tracer = TracerResolver.resolveTracer();
+////            if (tracer == null) {
+////                tracer = NoopTracerFactory.create();
+////            }
+////        }
+////
+////        log.warn("Tracer bean is not configured! Switching to " + tracer);
+////        return (Tracer)tracer;
+//        log.info("Tracing returned!!");
+//        return new TracerAutoConfiguration().getTracer();
+//    }
 
 //    @Bean
 //    @ConditionalOnMissingBean({Pattern.class})

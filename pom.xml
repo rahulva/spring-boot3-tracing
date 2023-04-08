@@ -13,17 +13,13 @@
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <java.version>17</java.version>
-<!--        <spring-cloud.version>2021.0.6</spring-cloud.version>-->
-        <spring-boot.version>3.0.5</spring-boot.version>
     </properties>
 
     <modules>
-<!--        <module>root</module>-->
+        <module>jeager-boot3-tracing-adapter</module>
         <module>tire1</module>
         <module>tire2</module>
-        <module>jeager-boot3-tracing-adapter</module>
     </modules>
 
     <dependencyManagement>
@@ -37,17 +33,41 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <type>pom</type>
-                <version>${spring-boot.version}</version>
+                <version>3.0.5</version>
                 <scope>import</scope>
             </dependency>
-            <!--<dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>-->
+
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>jeager-boot3-tracing-adapter</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>

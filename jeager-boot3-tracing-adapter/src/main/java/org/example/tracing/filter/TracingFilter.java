@@ -24,6 +24,7 @@ import io.opentracing.util.GlobalTracer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,8 +61,9 @@ import java.util.regex.Pattern;
  *
  * @author Pavol Loffay
  */
+@Slf4j
 public class TracingFilter implements Filter {
-    private static final Logger log = Logger.getLogger(TracingFilter.class.getName());
+//    private static final Logger log = Logger.getLogger(TracingFilter.class.getName());
 
     /**
      * Use as a key of {@link ServletContext#setAttribute(String, Object)} to set span decorators
@@ -95,6 +97,7 @@ public class TracingFilter implements Filter {
      */
     public TracingFilter(Tracer tracer) {
         this(tracer, Collections.singletonList(ServletFilterSpanDecorator.STANDARD_TAGS), null);
+        log.info("TracingFilter just with trace");
     }
 
     /**
@@ -108,6 +111,10 @@ public class TracingFilter implements Filter {
         this.spanDecorators = new ArrayList<>(spanDecorators);
         this.spanDecorators.removeAll(Collections.singleton(null));
         this.skipPattern = skipPattern;
+        log.info("TracingFilter just with trace, decorators and skip patterns");
+        log.info("TracingFilter details {}, {}, {}", tracer, spanDecorators, skipPattern);
+        log.info("current decorator details {}", this.spanDecorators);
+
     }
 
     @Override
@@ -132,7 +139,7 @@ public class TracingFilter implements Filter {
                 if (decorator instanceof ServletFilterSpanDecorator) {
                     decorators.add((ServletFilterSpanDecorator) decorator);
                 } else {
-                    log.severe(decorator + " is not an instance of " + ServletFilterSpanDecorator.class);
+                    log.info(decorator + " is not an instance of " + ServletFilterSpanDecorator.class);
                 }
             }
             this.spanDecorators = decorators.size() > 0 ? decorators : this.spanDecorators;
