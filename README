@@ -42,3 +42,5 @@ Spring boot 2.7.x Jeager tracer registration process
 2023-04-07 10:46:12.223  WARN 12462 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
 
 When Simpley upgrading Tracing does not work
+
+https://github.com/kishorek/java/tree/main/spring-observability-demo
