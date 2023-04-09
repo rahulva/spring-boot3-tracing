@@ -1,10 +1,10 @@
 services:
-  jaeger-all-in-one:
-    image: jaegertracing/all-in-one:latest
-    ports:
-      - "16686:16686"
-      - "14268"
-      - "14250"
+#  jaeger-all-in-one:
+#    image: jaegertracing/all-in-one:latest
+#    ports:
+#      - "16686:16686"
+#      - "14268"
+#      - "14250"
   otel-collector:
     image: otel/opentelemetry-collector:0.75.0
     command: [ "--config=/etc/otel-collector-config.yaml" ]
@@ -18,5 +18,5 @@ services:
       - "8888:8888" # Prometheus metrics exposed by the collector
       - "8889:8889" # Prometheus exporter metrics
       - "55679:55679" # zpages extension
-    depends_on:
-      - jaeger-all-in-one
+#    depends_on:
+#      - jaeger-all-in-one

@@ -15,9 +15,9 @@ processors:
 
 exporters:
   logging:
-    loglevel: debug
+    verbosity: Detailed
   jaeger:
-    endpoint: http://localhost:14250
+    endpoint: http://Rahuls-MBP:14250
     tls:
       insecure: true
 
