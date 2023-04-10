@@ -45,3 +45,8 @@ http://localhost:8082/orders/1
 
 Tire1 > Tire2
 
+
+https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/spring/spring-boot-autoconfigure
+https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/instrumentation/spring/starters/spring-boot-starter/README.md
+https://opentelemetry.io/docs/instrumentation/js/exporters/
+

@@ -11,11 +11,4 @@
 
     <artifactId>tire1</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>jeager-boot3-tracing-adapter</artifactId>
-        </dependency>
-    </dependencies>
-
 </project>
