@@ -9,13 +9,20 @@
         <version>1.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>tire1</artifactId>
+    <artifactId>jeager-boot3-tracing-adapter</artifactId>
 
     <dependencies>
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>-->
         <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>jeager-boot3-tracing-adapter</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
         </dependency>
     </dependencies>
-
 </project>
